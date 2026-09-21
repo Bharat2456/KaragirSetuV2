@@ -107,3 +107,8 @@ Third-party packages and services retain their own licenses and terms. See `pubs
 ---
 
 Made for the people behind the craft.
+
+
+## Build repair note
+
+This archive includes a syntax-safe minimal Flutter app shell intended to unblock Android compilation. It retains demo navigation and sample data, but advanced product editing, Gemini/Groq calls, media capture, and persistent authentication are not implemented in this repaired shell. Do not describe those as working features until re-integrated and tested.
