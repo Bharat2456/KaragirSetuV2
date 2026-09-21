@@ -1,0 +1,41 @@
+name: karigar_setu
+description: "AI-driven market linkage & smart cataloging app for artisans (SIH Prototype)"
+publish_to: 'none'
+version: 2.0.0+2
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+
+  # Camera roll / capture
+  image_picker: ^1.1.2
+
+  # On-device speech-to-text (supports Hindi + many Indian languages
+  # via the device's built-in recognizer — free, no API key)
+  speech_to_text: ^7.0.0
+
+  # On-device translation (free, works offline after a one-time
+  # per-language model download)
+  google_mlkit_translation: ^0.13.0
+
+  # Pure-Dart image processing for the "AI Studio" enhancement step
+  image: ^4.2.0
+
+  # Needed to write the enhanced image to a temp file
+  path_provider: ^2.1.4
+
+  intl: ^0.19.0
+  http: ^1.2.2
+  share_plus: ^10.1.4
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
