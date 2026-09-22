@@ -45,7 +45,113 @@ Widget heading(String title,String subtitle)=>Padding(padding:const EdgeInsets.o
 Widget panel({required Widget child,EdgeInsets padding=const EdgeInsets.all(16)})=>Container(width:double.infinity,padding:padding,decoration:BoxDecoration(color:Colors.white,borderRadius:BorderRadius.circular(20),border:Border.all(color:earth.withOpacity(.10))),child:child);
 Widget sectionTitle(String s,{Widget? trailing})=>Padding(padding:const EdgeInsets.only(bottom:12),child:Row(children:[Expanded(child:Text(s,style:const TextStyle(fontSize:17,fontWeight:FontWeight.w800,color:ink))),if(trailing!=null)trailing]));
 
-class DashboardPage extends StatelessWidget{final ValueChanged<int> onNavigate;const DashboardPage({super.key,required this.onNavigate});@override Widget build(BuildContext context){final orders=DemoData.orders.where((o)=>o.status!='Delivered').length;return PageBody(child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[Container(width:double.infinity,padding:const EdgeInsets.all(22),decoration:BoxDecoration(gradient:const LinearGradient(colors:[olive,Color(0xFF89975D)],begin:Alignment.topLeft,end:Alignment.bottomRight),borderRadius:BorderRadius.circular(24)),child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[const Text('NAMASTE, BHARAT 👋',style:TextStyle(color:ivory,fontWeight:FontWeight.bold,fontSize:12,letterSpacing:1.1)),const SizedBox(height:8),const Text('Your craft is going places.',style:TextStyle(color:Colors.white,fontWeight:FontWeight.w900,fontSize:25)),const SizedBox(height:8),const Text('Here’s what’s happening in your artisan business.',style:TextStyle(color:ivory)),const SizedBox(height:18),FilledButton.icon(onPressed:()=>onNavigate(2),icon:const Icon(Icons.add),label:const Text('Create a product'),style:FilledButton.styleFrom(backgroundColor:ivory,foregroundColor:olive))]),const SizedBox(height:18),GridView.count(crossAxisCount:2,shrinkWrap:true,physics:const NeverScrollableScrollPhysics(),crossAxisSpacing:10,mainAxisSpacing:10,childAspectRatio:1.55,children:[_metric('₹ 28,460','Revenue · 30 days',Icons.currency_rupee,olive),_metric('18','Orders · 30 days',Icons.shopping_bag_outlined,terracotta),_metric('12','Active products',Icons.inventory_2_outlined,gold),_metric('$orders','Orders to prepare',Icons.local_shipping_outlined,earth)]),const SizedBox(height:22),sectionTitle('Sales at a glance',trailing:TextButton(onPressed:()=>onNavigate(1),child:const Text('View analytics'))),panel(child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[const Row(children:[Text('₹28,460',style:TextStyle(fontSize:27,fontWeight:FontWeight.w900)),SizedBox(width:8),Chip(label:Text('+12.8%',style:TextStyle(color:olive,fontWeight:FontWeight.bold)),backgroundColor:Color(0xFFEAF0DD))]),const Text('Compared with previous 30 days · demo data',style:TextStyle(color:earth,fontSize:12)),const SizedBox(height:18),const SizedBox(height:100,child:CustomPaint(painter:MiniChartPainter(),child:SizedBox.expand()))])),const SizedBox(height:22),sectionTitle('Needs your attention',trailing:TextButton(onPressed:()=>onNavigate(3),child:const Text('All orders'))),...DemoData.orders.where((o)=>o.status!='Delivered').take(3).map((o)=>Padding(padding:const EdgeInsets.only(bottom:9),child:panel(padding:const EdgeInsets.all(13),child:Row(children:[Container(padding:const EdgeInsets.all(11),decoration:BoxDecoration(color:sand.withOpacity(.35),borderRadius:BorderRadius.circular(12)),child:const Icon(Icons.inventory_2_outlined,color:earth)),const SizedBox(width:12),Expanded(child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[Text(o.product,style:const TextStyle(fontWeight:FontWeight.bold),maxLines:1,overflow:TextOverflow.ellipsis),Text('${o.id} · ${o.qty} unit(s) · Due ${o.due}',style:const TextStyle(color:earth,fontSize:12))])),_status(o.status)])))))]));}}
+class DashboardPage extends StatelessWidget {
+  final ValueChanged<int> onNavigate;
+  const DashboardPage({super.key, required this.onNavigate});
+
+  @override
+  Widget build(BuildContext context) {
+    final orders = DemoData.orders.where((o) => o.status != 'Delivered').length;
+    return PageBody(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(22),
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                colors: [olive, Color(0xFF89975D)],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: BorderRadius.circular(24),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text('NAMASTE, BHARAT 👋', style: TextStyle(color: ivory, fontWeight: FontWeight.bold, fontSize: 12, letterSpacing: 1.1)),
+                const SizedBox(height: 8),
+                const Text('Your craft is going places.', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 25)),
+                const SizedBox(height: 8),
+                const Text('Here’s what’s happening in your artisan business.', style: TextStyle(color: ivory)),
+                const SizedBox(height: 18),
+                FilledButton.icon(
+                  onPressed: () => onNavigate(2),
+                  icon: const Icon(Icons.add),
+                  label: const Text('Create a product'),
+                  style: FilledButton.styleFrom(backgroundColor: ivory, foregroundColor: olive),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 18),
+          GridView.count(
+            crossAxisCount: 2,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+            childAspectRatio: 1.55,
+            children: [
+              _metric('₹ 28,460', 'Revenue · 30 days', Icons.currency_rupee, olive),
+              _metric('18', 'Orders · 30 days', Icons.shopping_bag_outlined, terracotta),
+              _metric('12', 'Active products', Icons.inventory_2_outlined, gold),
+              _metric('$orders', 'Orders to prepare', Icons.local_shipping_outlined, earth),
+            ],
+          ),
+          const SizedBox(height: 22),
+          sectionTitle('Sales at a glance', trailing: TextButton(onPressed: () => onNavigate(1), child: const Text('View analytics'))),
+          panel(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Row(children: [
+                  Text('₹28,460', style: TextStyle(fontSize: 27, fontWeight: FontWeight.w900)),
+                  SizedBox(width: 8),
+                  Chip(label: Text('+12.8%', style: TextStyle(color: olive, fontWeight: FontWeight.bold)), backgroundColor: Color(0xFFEAF0DD)),
+                ]),
+                const Text('Compared with previous 30 days · demo data', style: TextStyle(color: earth, fontSize: 12)),
+                const SizedBox(height: 18),
+                const SizedBox(height: 100, child: CustomPaint(painter: MiniChartPainter(), child: SizedBox.expand())),
+              ],
+            ),
+          ),
+          const SizedBox(height: 22),
+          sectionTitle('Needs your attention', trailing: TextButton(onPressed: () => onNavigate(3), child: const Text('All orders'))),
+          ...DemoData.orders.where((o) => o.status != 'Delivered').take(3).map(
+            (o) => Padding(
+              padding: const EdgeInsets.only(bottom: 9),
+              child: panel(
+                padding: const EdgeInsets.all(13),
+                child: Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(11),
+                      decoration: BoxDecoration(color: sand.withOpacity(.35), borderRadius: BorderRadius.circular(12)),
+                      child: const Icon(Icons.inventory_2_outlined, color: earth),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(o.product, style: const TextStyle(fontWeight: FontWeight.bold), maxLines: 1, overflow: TextOverflow.ellipsis),
+                          Text('${o.id} · ${o.qty} unit(s) · Due ${o.due}', style: const TextStyle(color: earth, fontSize: 12)),
+                        ],
+                      ),
+                    ),
+                    _status(o.status),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
 Widget _metric(String value,String label,IconData icon,Color color)=>Container(padding:const EdgeInsets.all(14),decoration:BoxDecoration(color:Colors.white,borderRadius:BorderRadius.circular(18),border:Border.all(color:earth.withOpacity(.1))),child:Column(crossAxisAlignment:CrossAxisAlignment.start,mainAxisAlignment:MainAxisAlignment.spaceBetween,children:[Icon(icon,color:color),Text(value,style:const TextStyle(fontSize:23,fontWeight:FontWeight.w900,color:ink)),Text(label,style:const TextStyle(fontSize:11,color:earth))]));
 Widget _status(String s)=>Container(padding:const EdgeInsets.symmetric(horizontal:9,vertical:6),decoration:BoxDecoration(color:(s=='Ready'?olive:s=='New'?terracotta:gold).withOpacity(.14),borderRadius:BorderRadius.circular(20)),child:Text(s,style:TextStyle(fontSize:11,fontWeight:FontWeight.bold,color:s=='Ready'?olive:s=='New'?terracotta:earth)));
 class MiniChartPainter extends CustomPainter{const MiniChartPainter();@override void paint(Canvas c,Size s){final p=Paint()..color=olive..strokeWidth=3..style=PaintingStyle.stroke..strokeCap=StrokeCap.round;final path=Path()..moveTo(0,s.height*.78)..cubicTo(s.width*.12,s.height*.65,s.width*.15,s.height*.2,s.width*.28,s.height*.48)..cubicTo(s.width*.4,s.height*.8,s.width*.52,s.height*.12,s.width*.62,s.height*.35)..cubicTo(s.width*.76,s.height*.62,s.width*.83,s.height*.25,s.width,s.height*.12);c.drawPath(path,p);final fill=Paint()..shader=LinearGradient(colors:[olive.withOpacity(.18),olive.withOpacity(0)],begin:Alignment.topCenter,end:Alignment.bottomCenter).createShader(Offset.zero& s);final area=Path.from(path)..lineTo(s.width,s.height)..lineTo(0,s.height)..close();c.drawPath(area,fill);}@override bool shouldRepaint(covariant CustomPainter oldDelegate)=>false;}
