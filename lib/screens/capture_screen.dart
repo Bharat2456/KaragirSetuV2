@@ -4,10 +4,12 @@ import 'package:image_picker/image_picker.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 import '../theme/app_theme.dart';
 import 'processing_screen.dart';
+import '../services/localization_service.dart';
 
 class CaptureScreen extends StatefulWidget {
   final String groqApiKey;
-  const CaptureScreen({super.key, required this.groqApiKey});
+  final String outputLanguage;
+  const CaptureScreen({super.key, required this.groqApiKey, this.outputLanguage='English'});
 
   @override
   State<CaptureScreen> createState() => _CaptureScreenState();
@@ -20,6 +22,8 @@ class _CaptureScreenState extends State<CaptureScreen> {
   String _transcript = '';
   bool _speechReady = false;
   bool _isListening = false;
+  String? _localeId;
+  List<stt.LocaleName> _locales = [];
 
   @override
   void initState() {
@@ -38,6 +42,8 @@ class _CaptureScreenState extends State<CaptureScreen> {
         if (mounted) setState(() => _isListening = false);
       },
     );
+    if (_speechReady) _locales = await _speech.locales();
+    _localeId = _locales.firstWhere((l) => l.localeId.startsWith(AppLocale.code), orElse: () => _locales.isNotEmpty ? _locales.first : stt.LocaleName('en-US','English (United States)')).localeId;
     if (mounted) setState(() {});
   }
 
@@ -54,7 +60,7 @@ class _CaptureScreenState extends State<CaptureScreen> {
       return;
     }
     setState(() => _isListening = true);
-    await _speech.listen(onResult: (result) {
+    await _speech.listen(localeId: _localeId, onResult: (result) {
       if (mounted) setState(() => _transcript = result.recognizedWords);
     });
   }
@@ -63,13 +69,13 @@ class _CaptureScreenState extends State<CaptureScreen> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(title: const Text('Create Product Page')),
+        appBar: AppBar(title: const LText('Create Product Page')),
         body: ListView(
           padding: const EdgeInsets.all(20),
           children: [
-            const Text('Make your craft discoverable', style: TextStyle(fontSize: 24, fontWeight: FontWeight.w800)),
+            const LText('Make your craft discoverable', style: TextStyle(fontSize: 24, fontWeight: FontWeight.w800)),
             const SizedBox(height: 6),
-            Text('No forms. Just show us the product and tell its story in your own voice.', style: TextStyle(color: Colors.black.withOpacity(.6), height: 1.4)),
+            LText('No forms. Just show us the product and tell its story in your own voice.', style: TextStyle(color: Colors.black.withOpacity(.6), height: 1.4)),
             const SizedBox(height: 24),
             _sectionLabel('1. Photograph your product'),
             const SizedBox(height: 10),
@@ -78,21 +84,22 @@ class _CaptureScreenState extends State<CaptureScreen> {
             _sectionLabel('2. Tell its story in your own voice'),
             const SizedBox(height: 10),
             _buildVoiceRecorder(),
+            if (_locales.isNotEmpty) ...[const SizedBox(height: 12), InputDecorator(decoration: InputDecoration(labelText: L10n.t('Voice input language')), child: DropdownButtonHideUnderline(child: DropdownButton<String>(value: _localeId, isExpanded: true, items: _locales.map((l) => DropdownMenuItem(value: l.localeId, child: Text(l.name))).toList(), onChanged: (v) => setState(() => _localeId = v))))],
             const SizedBox(height: 30),
             ElevatedButton.icon(
               icon: const Icon(Icons.auto_awesome),
-              label: const Text('Generate Product Page'),
+              label: const LText('Generate Product Page'),
               onPressed: _canGenerate
-                  ? () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => ProcessingScreen(imagePath: _image!.path, transcript: _transcript.trim(), groqApiKey: widget.groqApiKey)))
+                  ? () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => ProcessingScreen(imagePath: _image!.path, transcript: _transcript.trim(), groqApiKey: widget.groqApiKey, outputLanguage: widget.outputLanguage)))
                   : null,
             ),
             const SizedBox(height: 10),
-            Text('Your Groq key is used only for this AI generation request.', textAlign: TextAlign.center, style: TextStyle(fontSize: 11, color: Colors.black.withOpacity(.45))),
+            LText('Your Groq key is used only for this AI generation request.', textAlign: TextAlign.center, style: TextStyle(fontSize: 11, color: Colors.black.withOpacity(.45))),
           ],
         ),
       );
 
-  Widget _sectionLabel(String text) => Text(text, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700));
+  Widget _sectionLabel(String text) => LText(text, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700));
 
   Widget _buildPhotoPicker() => GestureDetector(
         onTap: _takePhoto,
@@ -101,7 +108,7 @@ class _CaptureScreenState extends State<CaptureScreen> {
           decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20), border: Border.all(color: AppColors.terracotta.withOpacity(.4), width: 2)),
           clipBehavior: Clip.antiAlias,
           child: _image == null
-              ? const Column(mainAxisAlignment: MainAxisAlignment.center, children: [Icon(Icons.camera_alt_rounded, size: 48, color: AppColors.terracotta), SizedBox(height: 10), Text('Tap to take a photo', style: TextStyle(color: AppColors.terracottaDark, fontWeight: FontWeight.w600))])
+              ? const Column(mainAxisAlignment: MainAxisAlignment.center, children: [Icon(Icons.camera_alt_rounded, size: 48, color: AppColors.terracotta), SizedBox(height: 10), LText('Tap to take a photo', style: TextStyle(color: AppColors.terracottaDark, fontWeight: FontWeight.w600))])
               : Stack(fit: StackFit.expand, children: [Image.file(_image!, fit: BoxFit.cover), Positioned(right: 8, bottom: 8, child: CircleAvatar(backgroundColor: Colors.black54, child: IconButton(icon: const Icon(Icons.refresh, color: Colors.white), onPressed: _takePhoto)))],),
         ),
       );
@@ -115,10 +122,10 @@ class _CaptureScreenState extends State<CaptureScreen> {
             child: CircleAvatar(radius: 38, backgroundColor: _isListening ? AppColors.terracotta : AppColors.indigo, child: Icon(_isListening ? Icons.stop_rounded : Icons.mic_rounded, color: Colors.white, size: 34)),
           ),
           const SizedBox(height: 10),
-          Text(_isListening ? 'Listening… tap to stop' : (_speechReady ? 'Tap and speak naturally — any supported language' : 'Initializing microphone…'), textAlign: TextAlign.center, style: TextStyle(color: Colors.black.withOpacity(.6), fontSize: 13)),
+          LText(_isListening ? 'Listening… tap to stop' : (_speechReady ? 'Tap and speak naturally — any supported language' : 'Initializing microphone…'), textAlign: TextAlign.center, style: TextStyle(color: Colors.black.withOpacity(.6), fontSize: 13)),
           if (_transcript.isNotEmpty) ...[
             const SizedBox(height: 14),
-            Container(width: double.infinity, padding: const EdgeInsets.all(12), decoration: BoxDecoration(color: AppColors.cream, borderRadius: BorderRadius.circular(12)), child: Text('“$_transcript”', style: const TextStyle(fontStyle: FontStyle.italic))),
+            Container(width: double.infinity, padding: const EdgeInsets.all(12), decoration: BoxDecoration(color: AppColors.cream, borderRadius: BorderRadius.circular(12)), child: LText('“$_transcript”', style: const TextStyle(fontStyle: FontStyle.italic))),
           ],
         ]),
       );

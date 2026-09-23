@@ -5,6 +5,7 @@ import '../models/product_listing.dart';
 import '../theme/app_theme.dart';
 import 'capture_screen.dart';
 import 'api_key_screen.dart';
+import '../services/localization_service.dart';
 
 class HomeScreen extends StatelessWidget {
   final String groqApiKey;
@@ -14,7 +15,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Karigar Setu'),
+        title: const LText('Karigar Setu'),
         actions: [
           IconButton(
             tooltip: 'Use another Groq key',
@@ -56,9 +57,9 @@ class HomeScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: ElevatedButton.icon(
             icon: const Icon(Icons.add_a_photo_rounded, size: 26),
-            label: const Text('Create a Product Page'),
+            label: const LText('Create a Product Page'),
             onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => CaptureScreen(groqApiKey: groqApiKey)),
+              MaterialPageRoute(builder: (_) => CaptureScreen(groqApiKey: groqApiKey, outputLanguage: AppLocale.current.name)),
             ),
           ),
         ),
@@ -76,11 +77,11 @@ class HomeScreen extends StatelessWidget {
         child: const Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('नमस्ते, कारीगर 👋', style: TextStyle(color: Colors.white70, fontSize: 15)),
+            LText('नमस्ते, कारीगर 👋', style: TextStyle(color: Colors.white70, fontSize: 15)),
             SizedBox(height: 4),
-            Text('Turn your craft into a story', style: TextStyle(color: Colors.white, fontSize: 26, fontWeight: FontWeight.w800)),
+            LText('Turn your craft into a story', style: TextStyle(color: Colors.white, fontSize: 26, fontWeight: FontWeight.w800)),
             SizedBox(height: 10),
-            Text('Photo + your voice → an AI-powered product landing page you can share.', style: TextStyle(color: Colors.white, height: 1.4)),
+            LText('Photo + your voice → an AI-powered product landing page you can share.', style: TextStyle(color: Colors.white, height: 1.4)),
           ],
         ),
       );
@@ -91,9 +92,9 @@ class HomeScreen extends StatelessWidget {
           children: [
             const Icon(Icons.storefront_rounded, size: 72, color: AppColors.terracottaDark),
             const SizedBox(height: 16),
-            const Text('Your first product page starts here', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700), textAlign: TextAlign.center),
+            const LText('Your first product page starts here', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700), textAlign: TextAlign.center),
             const SizedBox(height: 8),
-            Text('Take a photo, describe the craft in your own voice, and let Karigar Setu create a beautiful story around it.', textAlign: TextAlign.center, style: TextStyle(color: Colors.black.withOpacity(.6), height: 1.4)),
+            LText('Take a photo, describe the craft in your own voice, and let Karigar Setu create a beautiful story around it.', textAlign: TextAlign.center, style: TextStyle(color: Colors.black.withOpacity(.6), height: 1.4)),
           ],
         ),
       );
@@ -113,11 +114,11 @@ class _ListingCard extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(12),
                 child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Text(listing.titleEnglish, maxLines: 2, overflow: TextOverflow.ellipsis, style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 15)),
+                  LText(listing.titleEnglish, maxLines: 2, overflow: TextOverflow.ellipsis, style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 15)),
                   const SizedBox(height: 5),
-                  Text(listing.tagline, maxLines: 2, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 12, color: Colors.black.withOpacity(.55))),
+                  LText(listing.tagline, maxLines: 2, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 12, color: Colors.black.withOpacity(.55))),
                   const SizedBox(height: 5),
-                  const Row(children: [Icon(Icons.public, size: 14, color: AppColors.success), SizedBox(width: 4), Text('Shareable product page', style: TextStyle(fontSize: 12, color: AppColors.success))]),
+                  const Row(children: [Icon(Icons.public, size: 14, color: AppColors.success), SizedBox(width: 4), LText('Shareable product page', style: TextStyle(fontSize: 12, color: AppColors.success))]),
                 ]),
               ),
             ),

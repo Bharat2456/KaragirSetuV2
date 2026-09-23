@@ -51,14 +51,16 @@ class GroqService {
     required String apiKey,
     required String imagePath,
     required String artisanDescription,
+    String outputLanguage = 'English',
     int retryCount = 0,
   }) async {
     final bytes = await File(imagePath).readAsBytes();
     final base64Image = base64Encode(bytes);
     final mime = _mimeType(imagePath);
 
-    const systemPrompt = '''You are Karigar Setu, an AI catalog assistant for Indian artisans.
+    final systemPrompt = '''You are Karigar Setu, an AI catalog assistant for Indian artisans.
 Create a beautiful, respectful product landing page from the product photo and the artisan's own description.
+The final output MUST be written entirely in $outputLanguage. Preserve the artisan's meaning; do not translate names, measurements or proper nouns unnecessarily.
 Your writing should make the product appealing to a buyer while preserving Indian cultural context.
 Never invent a specific state, tribe, community, GI tag, festival, historical claim, or traditional origin unless the artisan description or visible evidence supports it. If the exact regional origin is unknown, say it reflects Indian craft traditions generally.
 Do not call the artisan poor, marginalized, backward, or use charity language. Center skill, dignity, craftsmanship and cultural heritage.
@@ -119,6 +121,7 @@ Use the image to understand the product, visible materials, colors and craft det
         apiKey: apiKey,
         imagePath: imagePath,
         artisanDescription: artisanDescription,
+        outputLanguage: outputLanguage,
         retryCount: retryCount + 1,
       );
     }
@@ -243,4 +246,45 @@ Use the image to understand the product, visible materials, colors and craft det
     if (lower.endsWith('.webp')) return 'image/webp';
     return 'image/jpeg';
   }
+  static Future<String> generateTextListing({
+    required String apiKey,
+    required String productName,
+    required String category,
+    required String details,
+    required String materials,
+    required String price,
+    required String capacity,
+    required String days,
+    required String outputLanguage,
+  }) async {
+    final system = '''You are KarigarSetu, an ethical Indian artisan-commerce listing assistant.
+Create a buyer-ready product listing using ONLY the facts provided by the artisan. Never invent a location, tribe, community, GI tag, certification, historical claim, material, or cultural origin.
+The artisan may write or speak in any language. Understand it without requiring English. Return the final answer entirely in $outputLanguage.
+Use these sections: TITLE, TAGLINE, DESCRIPTION, ARTISAN STORY, MATERIALS, MAKING PROCESS, CARE, CUSTOMIZATION, CAPACITY, LEAD TIME.
+Keep it warm, clear, respectful and factual. Do not add markdown bullets or commentary.''';
+    final user = '''Product name: $productName
+Category: $category
+Artisan description: $details
+Materials: $materials
+Price in INR: $price
+Production capacity: $capacity units
+Lead time: $days days''';
+    final response = await http.post(
+      Uri.parse(_endpoint),
+      headers: {'Authorization':'Bearer ${apiKey.trim()}','Content-Type':'application/json'},
+      body: jsonEncode({'model':'llama-3.3-70b-versatile','temperature':0.35,'max_tokens':900,'messages':[{'role':'system','content':system},{'role':'user','content':user}]}),
+    ).timeout(const Duration(seconds:45));
+    if(response.statusCode==401) throw Exception('The Groq API key was rejected. Please check the key and try again.');
+    if(response.statusCode==429) throw Exception('Groq is temporarily rate-limited. Please wait and try again.');
+    if(response.statusCode<200||response.statusCode>=300){
+      String detail='Groq returned HTTP ${response.statusCode}.';
+      try{final body=jsonDecode(response.body);final msg=body['error']?['message'];if(msg is String&&msg.isNotEmpty)detail=msg;}catch(_){}
+      throw Exception(detail);
+    }
+    final decoded=jsonDecode(response.body) as Map<String,dynamic>;
+    final content=decoded['choices']?[0]?['message']?['content'];
+    if(content is! String||content.trim().isEmpty) throw Exception('Groq returned an empty listing. Please try again.');
+    return content.trim();
+  }
+
 }

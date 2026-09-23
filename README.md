@@ -12,7 +12,7 @@ KaragirSetu is a Flutter Android prototype exploring how artisans can turn craft
 - [Demo access](#demo-access)
 - [Build an APK using GitHub Actions](#build-an-apk-using-github-actions)
 - [Build locally (optional)](#build-locally-optional)
-- [Configure Gemini and Groq](#configure-gemini-and-groq)
+- [Configure Groq](#configure-groq)
 - [Prototype boundaries](#prototype-boundaries-and-known-limitations)
 - [Project layout](#project-layout)
 - [License and third-party notices](#license-and-third-party-notices)
@@ -23,7 +23,7 @@ KaragirSetu is a Flutter Android prototype exploring how artisans can turn craft
 - Dashboard, Analytics, Products, Orders, Marketplace, and Settings screens.
 - Sample product/order/analytics information for demonstration.
 - Product creation/editing with image selection, artisan-supplied details, price, stock/capacity, and lead time.
-- AI-assisted listing text generation through Gemini or Groq when you provide your own API key.
+- AI-assisted listing generation through Groq when you provide your own API key. The build does not use a Gemini API key.
 - Buyer preview and native share flow.
 - Demo marketplace connection switches and simulated publishing states.
 - Earth-tone palette: olive `#70823E`, sand `#DFC799`, gold `#E0B44A`, terracotta `#D8853F`, ivory `#F3EDE0`, and earth `#866C5A`.
@@ -63,11 +63,11 @@ flutter build apk --debug
 
 Output: `build/app/outputs/flutter-apk/app-debug.apk`.
 
-## Configure Gemini and Groq
+## Configure Groq
 
 1. Launch the app and sign in with the demo credentials.
 2. Open **Settings → AI configuration**.
-3. Paste your own Gemini API key and/or Groq API key and apply it.
+3. Paste your own Groq API key and apply it.
 4. Go to **Products**, create a product, enter artisan-confirmed details, select a provider, and generate the listing.
 5. Review and correct all generated text before sharing.
 
@@ -107,3 +107,12 @@ Third-party packages and services retain their own licenses and terms. See `pubs
 ---
 
 Made for the people behind the craft.
+
+
+## Multilingual experience
+- Choose the app UI language at login (English, Hindi, or Marathi).
+- The selected language is applied across the app UI and is retained for the current session.
+- Product details can be typed in any language supported by the keyboard.
+- Product details can also be spoken using the device speech recognizer; the product form provides a voice-input language selector.
+- Groq understands multilingual artisan input and generates the buyer-facing listing in the selected app language.
+- Gemini is not used anywhere in the app.
