@@ -192,11 +192,18 @@ class LText extends StatefulWidget {
 }
 
 class _LTextState extends State<LText> {
+  void _onLocaleChanged() {
+    if (mounted) setState(() {});
+    L10n.translate(widget.data).then((_) { if (mounted) setState(() {}); });
+  }
+
   @override
   void initState() {
     super.initState();
+    AppLocale.notifier.addListener(_onLocaleChanged);
     L10n.translate(widget.data).then((_) { if (mounted) setState(() {}); });
   }
+
   @override
   void didUpdateWidget(covariant LText oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -204,6 +211,13 @@ class _LTextState extends State<LText> {
       L10n.translate(widget.data).then((_) { if (mounted) setState(() {}); });
     }
   }
+
+  @override
+  void dispose() {
+    AppLocale.notifier.removeListener(_onLocaleChanged);
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) => Text(
         L10n.t(widget.data),
