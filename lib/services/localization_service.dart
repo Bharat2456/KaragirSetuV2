@@ -26,12 +26,12 @@ class AppLanguages {
     AppLanguage('ks', 'Kashmiri', 'कॉशुर'),
     AppLanguage('kok', 'Konkani', 'कोंकणी'),
     AppLanguage('mai', 'Maithili', 'मैथिली'),
-    AppLanguage('ml', 'Malayalam', 'മലയാളം', TranslateLanguage.malayalam),
+    AppLanguage('ml', 'Malayalam', 'മലയാളം', null),
     AppLanguage('mni', 'Meitei (Manipuri)', 'মৈতৈলোন্'),
     AppLanguage('mr', 'Marathi', 'मराठी', TranslateLanguage.marathi),
     AppLanguage('ne', 'Nepali', 'नेपाली'),
     AppLanguage('or', 'Odia', 'ଓଡ଼ିଆ'),
-    AppLanguage('pa', 'Punjabi', 'ਪੰਜਾਬੀ', TranslateLanguage.punjabi),
+    AppLanguage('pa', 'Punjabi', 'ਪੰਜਾਬੀ', null),
     AppLanguage('sa', 'Sanskrit', 'संस्कृतम्'),
     AppLanguage('sat', 'Santali', 'ᱥᱟᱱᱛᱟᱲᱤ'),
     AppLanguage('sd', 'Sindhi', 'سنڌي'),
@@ -177,7 +177,7 @@ class L10n {
   static Future<void> warmCurrentLanguage() async {
     final code = AppLocale.code;
     await warmLanguage(code);
-    notifier.value = code;
+    AppLocale.notifier.value = code;
   }
 }
 
