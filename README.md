@@ -116,3 +116,8 @@ Made for the people behind the craft.
 - Product details can also be spoken using the device speech recognizer; the product form provides a voice-input language selector.
 - Groq understands multilingual artisan input and generates the buyer-facing listing in the selected app language.
 - Gemini is not used anywhere in the app.
+
+## Multilingual UI
+The UI language selector includes all 22 languages in the Eighth Schedule of the Constitution of India plus English. This build provides full on-device UI translation for Bengali, Gujarati, Hindi, Kannada, Malayalam, Marathi, Punjabi, Tamil, Telugu and Urdu using Google ML Kit; the remaining scheduled languages are shown as future translation-pack options rather than silently presenting a misleading English fallback.
+
+Product voice input continues to use the device speech recognizer's available locales, and Groq receives the selected UI language as the required output language for generated product copy.

@@ -63,8 +63,8 @@ class _ApiKeyScreenState extends State<ApiKeyScreen> {
               autocorrect: false,
               enableSuggestions: false,
               decoration: InputDecoration(
-                labelText: 'Groq API key',
-                hintText: 'gsk_…',
+                labelText: L10n.t('Groq API key'),
+                hintText: L10n.t('gsk_…'),
                 prefixIcon: const Icon(Icons.key_rounded),
                 suffixIcon: IconButton(
                   onPressed: () => setState(() => _obscure = !_obscure),

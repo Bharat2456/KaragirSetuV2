@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../data/listing_store.dart';
 import '../models/product_listing.dart';
 import '../theme/app_theme.dart';
+import '../services/localization_service.dart';
 
 class ListingPreviewScreen extends StatefulWidget {
   final ProductListing listing;
@@ -19,7 +20,6 @@ class ListingPreviewScreen extends StatefulWidget {
 }
 
 class _ListingPreviewScreenState extends State<ListingPreviewScreen> {
-  bool _showHindi = false;
   late double _price;
 
   @override
@@ -42,19 +42,17 @@ class _ListingPreviewScreenState extends State<ListingPreviewScreen> {
           children: [
             Icon(Icons.check_circle, color: AppColors.success, size: 28),
             SizedBox(width: 10),
-            Text('Published!'),
+            LText('Published!'),
           ],
         ),
-        content: const Text(
-          'Your product is now live on the digital marketplace and visible '
-          'to buyers year-round — not just during the next mela.',
+        content: const LText('Your product is now live on the digital marketplace and visible to buyers year-round — not just during the next mela.',
         ),
         actions: [
           TextButton(
             onPressed: () {
               Navigator.of(context).popUntil((route) => route.isFirst);
             },
-            child: const Text('Back to My Shop'),
+            child: const LText('Back to My Shop'),
           ),
         ],
       ),
@@ -65,7 +63,7 @@ class _ListingPreviewScreenState extends State<ListingPreviewScreen> {
   Widget build(BuildContext context) {
     final listing = widget.listing;
     return Scaffold(
-      appBar: AppBar(title: const Text('Review Listing')),
+      appBar: AppBar(title: const LText('Review Listing')),
       body: ListView(
         padding: const EdgeInsets.all(20),
         children: [
@@ -83,33 +81,32 @@ class _ListingPreviewScreenState extends State<ListingPreviewScreen> {
           const SizedBox(height: 20),
           Text(listing.titleEnglish, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w800)),
           const SizedBox(height: 14),
-          _buildLanguageToggle(),
+          Center(child: Text(AppLocale.current.nativeName, style: const TextStyle(fontSize: 12, color: AppColors.ink))),
           const SizedBox(height: 10),
           Card(
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: Text(
-                _showHindi ? listing.descriptionHindi : listing.descriptionEnglish,
+                listing.descriptionEnglish,
                 style: const TextStyle(fontSize: 15, height: 1.5),
               ),
             ),
           ),
           const SizedBox(height: 24),
-          const Text('Suggested Price', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
+          const LText('Suggested Price', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
           const SizedBox(height: 6),
-          Text(
-            '₹${listing.suggestedPriceLow.toStringAsFixed(0)} – ₹${listing.suggestedPriceHigh.toStringAsFixed(0)}',
+          LText('₹${listing.suggestedPriceLow.toStringAsFixed(0)} – ₹${listing.suggestedPriceHigh.toStringAsFixed(0)}',
             style: const TextStyle(fontSize: 15, color: AppColors.terracottaDark, fontWeight: FontWeight.w700),
           ),
           const SizedBox(height: 4),
-          Text(widget.priceExplanation, style: TextStyle(fontSize: 12, color: Colors.black.withOpacity(0.55))),
+          LText(widget.priceExplanation, style: TextStyle(fontSize: 12, color: Colors.black.withOpacity(0.55))),
           const SizedBox(height: 16),
           Card(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: Row(
                 children: [
-                  const Text('Final price: ₹', style: TextStyle(fontWeight: FontWeight.w700)),
+                  const LText('Final price: ₹', style: TextStyle(fontWeight: FontWeight.w700)),
                   Expanded(
                     child: Slider(
                       value: _price.clamp(listing.suggestedPriceLow * 0.7, listing.suggestedPriceHigh * 1.3),
@@ -134,13 +131,12 @@ class _ListingPreviewScreenState extends State<ListingPreviewScreen> {
           const SizedBox(height: 28),
           ElevatedButton.icon(
             icon: const Icon(Icons.rocket_launch_rounded),
-            label: const Text('Publish to Marketplace'),
+            label: const LText('Publish to Marketplace'),
             onPressed: _publish,
           ),
           const SizedBox(height: 8),
           Center(
-            child: Text(
-              'Simulated GeM / ONDC listing for demo purposes',
+            child: LText('Simulated GeM / ONDC listing for demo purposes',
               style: TextStyle(fontSize: 11, color: Colors.black.withOpacity(0.4)),
             ),
           ),
@@ -149,16 +145,7 @@ class _ListingPreviewScreenState extends State<ListingPreviewScreen> {
     );
   }
 
-  Widget _buildLanguageToggle() {
-    return SegmentedButton<bool>(
-      segments: const [
-        ButtonSegment(value: false, label: Text('English')),
-        ButtonSegment(value: true, label: Text('हिंदी')),
-      ],
-      selected: {_showHindi},
-      onSelectionChanged: (s) => setState(() => _showHindi = s.first),
-    );
-  }
+
 }
 
 class _AiTag extends StatelessWidget {
@@ -178,7 +165,7 @@ class _AiTag extends StatelessWidget {
         children: [
           const Icon(Icons.auto_awesome, size: 12, color: AppColors.terracottaDark),
           const SizedBox(width: 4),
-          Text(label, style: const TextStyle(fontSize: 11, color: AppColors.terracottaDark, fontWeight: FontWeight.w600)),
+          LText(label, style: const TextStyle(fontSize: 11, color: AppColors.terracottaDark, fontWeight: FontWeight.w600)),
         ],
       ),
     );

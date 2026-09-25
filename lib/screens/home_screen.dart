@@ -18,7 +18,7 @@ class HomeScreen extends StatelessWidget {
         title: const LText('Karigar Setu'),
         actions: [
           IconButton(
-            tooltip: 'Use another Groq key',
+            tooltip: L10n.t('Use another Groq key'),
             icon: const Icon(Icons.key_rounded),
             onPressed: () => Navigator.of(context).pushReplacement(
               MaterialPageRoute(builder: (_) => const ApiKeyScreen()),
@@ -77,7 +77,7 @@ class HomeScreen extends StatelessWidget {
         child: const Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            LText('नमस्ते, कारीगर 👋', style: TextStyle(color: Colors.white70, fontSize: 15)),
+            LText('Namaste, artisan 👋', style: TextStyle(color: Colors.white70, fontSize: 15)),
             SizedBox(height: 4),
             LText('Turn your craft into a story', style: TextStyle(color: Colors.white, fontSize: 26, fontWeight: FontWeight.w800)),
             SizedBox(height: 10),
@@ -114,9 +114,9 @@ class _ListingCard extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(12),
                 child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  LText(listing.titleEnglish, maxLines: 2, overflow: TextOverflow.ellipsis, style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 15)),
+                  Text(listing.titleEnglish, maxLines: 2, overflow: TextOverflow.ellipsis, style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 15)),
                   const SizedBox(height: 5),
-                  LText(listing.tagline, maxLines: 2, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 12, color: Colors.black.withOpacity(.55))),
+                  Text(listing.tagline, maxLines: 2, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 12, color: Colors.black.withOpacity(.55))),
                   const SizedBox(height: 5),
                   const Row(children: [Icon(Icons.public, size: 14, color: AppColors.success), SizedBox(width: 4), LText('Shareable product page', style: TextStyle(fontSize: 12, color: AppColors.success))]),
                 ]),

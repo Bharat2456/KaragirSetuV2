@@ -1,240 +1,215 @@
 import 'package:flutter/material.dart';
+import 'package:google_mlkit_translation/google_mlkit_translation.dart';
 
-class AppLanguage { final String code; final String name; final String nativeName; const AppLanguage(this.code,this.name,this.nativeName); }
-class AppLanguages { static const supported=<AppLanguage>[AppLanguage('en','English','English'),AppLanguage('hi','Hindi','हिन्दी'),AppLanguage('mr','Marathi','मराठी')]; }
-class AppLocale { static String code='en'; static final ValueNotifier<String> notifier=ValueNotifier(code); static void set(String value){code=value;notifier.value=value;} static AppLanguage get current=>AppLanguages.supported.firstWhere((l)=>l.code==code,orElse:()=>AppLanguages.supported.first); }
-class L10n { static String t(String key)=>_strings[AppLocale.code]?[key]??key; static const _strings=<String,Map<String,String>>{
-  'hi': {
-      'Welcome back': 'वापसी पर स्वागत है',
-      'Sign in': 'साइन इन',
-      'Username': 'उपयोगकर्ता नाम',
-      'Password': 'पासवर्ड',
-      'Language': 'भाषा',
-      'Your craft. Your story. Your marketplace.': 'आपका हुनर। आपकी कहानी। आपका बाज़ार।',
-      'Sign in to your artisan workspace.': 'अपने कारीगर कार्यक्षेत्र में साइन इन करें।',
-      'DEMO ACCESS': 'डेमो एक्सेस',
-      'Prototype account only. Replace demo authentication before real deployment.': 'केवल प्रोटोटाइप खाता। वास्तविक उपयोग से पहले डेमो प्रमाणीकरण बदलें।',
-      'Made for the people behind the craft ✦': 'हुनर के पीछे के लोगों के लिए बनाया गया ✦',
-      'Dashboard': 'डैशबोर्ड',
-      'Analytics': 'विश्लेषण',
-      'Products': 'उत्पाद',
-      'Orders': 'ऑर्डर',
-      'Marketplace': 'बाज़ार',
-      'Settings': 'सेटिंग्स',
-      'Home': 'होम',
-      'Markets': 'बाज़ार',
-      'Your craft is going places.': 'आपका हुनर आगे बढ़ रहा है।',
-      'Here’s what’s happening in your artisan business.': 'आपके कारीगर व्यवसाय में अभी क्या हो रहा है।',
-      'View analytics': 'विश्लेषण देखें',
-      'View page': 'पेज देखें',
-      'Create a product': 'उत्पाद बनाएँ',
-      'Create product listing': 'उत्पाद सूची बनाएँ',
-      'Save product': 'उत्पाद सहेजें',
-      'Save profile': 'प्रोफ़ाइल सहेजें',
-      'Log out': 'लॉग आउट',
-      'Groq API key': 'Groq API कुंजी',
-      'Apply API keys': 'API कुंजी लागू करें',
-      'AI configuration': 'AI कॉन्फ़िगरेशन',
-      'Artisan profile': 'कारीगर प्रोफ़ाइल',
-      'Your name': 'आपका नाम',
-      'Business / craft name': 'व्यवसाय / शिल्प का नाम',
-      'Contact number': 'संपर्क नंबर',
-      'Location': 'स्थान',
-      'About your craft / business': 'आपके शिल्प / व्यवसाय के बारे में',
-      'Profile saved for this session.': 'प्रोफ़ाइल इस सत्र के लिए सहेजी गई।',
-      'AI keys set in memory for this session.': 'AI कुंजियाँ इस सत्र के लिए मेमोरी में सेट हैं।',
-      'Take photo': 'फोटो लें',
-      'Upload photos': 'फोटो अपलोड करें',
-      'Craft details': 'शिल्प विवरण',
-      'Product name (optional)': 'उत्पाद का नाम (वैकल्पिक)',
-      'Category': 'श्रेणी',
-      'Tell us about the product': 'उत्पाद के बारे में बताएँ',
-      'What is it? How is it made? What makes it special?': 'यह क्या है? इसे कैसे बनाया जाता है? इसे खास क्या बनाता है?',
-      'Materials (if known)': 'सामग्री (यदि ज्ञात हो)',
-      'Price & production': 'कीमत और उत्पादन',
-      'Your selling price (₹)': 'आपकी बिक्री कीमत (₹)',
-      'Units you can make': 'आप कितनी इकाइयाँ बना सकते हैं',
-      'In how many days?': 'कितने दिनों में?',
-      'AI listing studio': 'AI लिस्टिंग स्टूडियो',
-      'Generate buyer-ready listing': 'खरीदार के लिए लिस्टिंग बनाएँ',
-      'Generating…': 'बनाया जा रहा है…',
-      'Cancel': 'रद्द करें',
-      'Close': 'बंद करें',
-      'Preview listing': 'लिस्टिंग देखें',
-      'Publish (demo)': 'प्रकाशित करें (डेमो)',
-      'Demo publish': 'डेमो प्रकाशन',
-      'Connect demo': 'डेमो कनेक्ट करें',
-      'Share listing': 'लिस्टिंग साझा करें',
-      'Share product page': 'उत्पाद पेज साझा करें',
-      'Buyer preview': 'खरीदार पूर्वावलोकन',
-      'Materials': 'सामग्री',
-      'Made with care': 'सावधानी से बनाया गया',
-      'Share Page': 'पेज साझा करें',
-      'Product page saved to your Karigar Setu shop.': 'उत्पाद पेज आपके Karigar Setu शॉप में सहेजा गया।',
-      'Use another Groq key': 'दूसरी Groq कुंजी उपयोग करें',
-      'Create a Product Page': 'उत्पाद पेज बनाएँ',
-      'Tap to take a photo': 'फोटो लेने के लिए टैप करें',
-      'Listening… tap to stop': 'सुन रहा है… रोकने के लिए टैप करें',
-      'Tap and speak naturally — any supported language': 'स्वाभाविक रूप से बोलें — कोई भी समर्थित भाषा',
-      'Generate Product Page': 'उत्पाद पेज बनाएँ',
-      'Your Groq key is used only for this AI generation request.': 'आपकी Groq कुंजी केवल इस AI अनुरोध के लिए उपयोग होती है।',
-      'We could not generate the page': 'पेज नहीं बनाया जा सका',
-      'Try again': 'फिर कोशिश करें',
-      'Save': 'सहेजें',
-      'Share': 'साझा करें',
-      'Your Product Page': 'आपका उत्पाद पेज',
-      'The story': 'कहानी',
-      'Rooted in India': 'भारत की जड़ों से जुड़ा',
-      'Made by hand': 'हाथ से बनाया गया',
-      'Why it is special': 'यह खास क्यों है',
-      'INDIAN CRAFT • HANDMADE': 'भारतीय शिल्प • हस्तनिर्मित',
-      'Powered by Karigar Setu • AI-assisted storytelling': 'Karigar Setu द्वारा • AI-सहायित कहानी',
-      'Voice input language': 'वॉइस इनपुट भाषा',
-      'Speak': 'बोलें',
-      'Make your craft discoverable': 'अपनी कला को लोगों तक पहुँचाएँ',
-      'No forms. Just show us the product and tell its story in your own voice.': 'फॉर्म नहीं। बस उत्पाद दिखाएँ और अपनी आवाज़ में उसकी कहानी बताएँ।',
-      '1. Photograph your product': '1. अपने उत्पाद की फोटो लें',
-      '2. Tell its story in your own voice': '2. अपनी आवाज़ में इसकी कहानी बताएँ',
-      'Initializing microphone…': 'माइक्रोफ़ोन शुरू हो रहा है…',
-      'Gross sales': 'कुल बिक्री',
-      'Estimated profit': 'अनुमानित लाभ',
-      'Average order': 'औसत ऑर्डर',
-      'Sales trend': 'बिक्री का रुझान',
-      'Product performance': 'उत्पाद प्रदर्शन',
-      'Marketplace comparison': 'बाज़ार तुलना',
-      'Your business, at a glance': 'आपके व्यवसाय की एक झलक',
-      'Understand what sells, where it sells, and what you earn.': 'क्या बिकता है, कहाँ बिकता है और आप क्या कमाते हैं, समझें।',
-      'Your products': 'आपके उत्पाद',
-      'Your craft catalog, ready to improve and share.': 'आपकी कला सूची, सुधारने और साझा करने के लिए तैयार।',
-      'Search your products': 'अपने उत्पाद खोजें',
-      'Prepare each craft on time and keep payment status clear.': 'हर ऑर्डर समय पर तैयार करें और भुगतान की स्थिति स्पष्ट रखें।',
-      'Filter orders': 'ऑर्डर फ़िल्टर करें',
-      'Update order status': 'ऑर्डर की स्थिति अपडेट करें',
-      'Quantity': 'मात्रा',
-      'Order total': 'ऑर्डर कुल',
-      'Prepare by': 'तैयार करें',
-      'Paid': 'भुगतान हो गया',
-      'Payment pending': 'भुगतान लंबित',
-      'Marketplaces': 'बाज़ार',
-      'Choose where you want to offer your craft.': 'चुनें कि आप अपनी कला कहाँ पेश करना चाहते हैं।',
-      'Enabled destinations': 'सक्रिय गंतव्य',
-      'Groq is the only AI provider used by this build. Your key is kept in app memory for this session.': 'इस बिल्ड में केवल Groq AI का उपयोग होता है। आपकी कुंजी इस सत्र की मेमोरी में रहती है।',
-      'Generates the listing in your selected UI language.': 'आपकी चुनी हुई ऐप भाषा में लिस्टिंग बनाता है।',  },
-  'mr': {
-      'Welcome back': 'पुन्हा स्वागत आहे',
-      'Sign in': 'साइन इन',
-      'Username': 'वापरकर्ता नाव',
-      'Password': 'पासवर्ड',
-      'Language': 'भाषा',
-      'Your craft. Your story. Your marketplace.': 'तुमची कला. तुमची कथा. तुमची बाजारपेठ.',
-      'Sign in to your artisan workspace.': 'तुमच्या कारागीर कार्यक्षेत्रात साइन इन करा.',
-      'DEMO ACCESS': 'डेमो प्रवेश',
-      'Prototype account only. Replace demo authentication before real deployment.': 'फक्त प्रोटोटाइप खाते. प्रत्यक्ष वापरापूर्वी डेमो प्रमाणीकरण बदला.',
-      'Made for the people behind the craft ✦': 'कलेमागील कारागिरांसाठी बनवलेले ✦',
-      'Dashboard': 'डॅशबोर्ड',
-      'Analytics': 'विश्लेषण',
-      'Products': 'उत्पादने',
-      'Orders': 'ऑर्डर्स',
-      'Marketplace': 'बाजारपेठ',
-      'Settings': 'सेटिंग्ज',
-      'Home': 'होम',
-      'Markets': 'बाजार',
-      'Your craft is going places.': 'तुमची कला पुढे जात आहे.',
-      'Here’s what’s happening in your artisan business.': 'तुमच्या कारागीर व्यवसायात सध्या काय घडत आहे.',
-      'View analytics': 'विश्लेषण पहा',
-      'View page': 'पेज पहा',
-      'Create a product': 'उत्पादन तयार करा',
-      'Create product listing': 'उत्पादन लिस्टिंग तयार करा',
-      'Save product': 'उत्पादन जतन करा',
-      'Save profile': 'प्रोफाइल जतन करा',
-      'Log out': 'लॉग आउट',
-      'Groq API key': 'Groq API की',
-      'Apply API keys': 'API की लागू करा',
-      'AI configuration': 'AI कॉन्फिगरेशन',
-      'Artisan profile': 'कारागीर प्रोफाइल',
-      'Your name': 'तुमचे नाव',
-      'Business / craft name': 'व्यवसाय / कलेचे नाव',
-      'Contact number': 'संपर्क क्रमांक',
-      'Location': 'स्थान',
-      'About your craft / business': 'तुमच्या कला / व्यवसायाबद्दल',
-      'Profile saved for this session.': 'प्रोफाइल या सत्रासाठी जतन झाले.',
-      'AI keys set in memory for this session.': 'AI की या सत्रासाठी मेमरीमध्ये सेट केल्या.',
-      'Take photo': 'फोटो घ्या',
-      'Upload photos': 'फोटो अपलोड करा',
-      'Craft details': 'कलेचे तपशील',
-      'Product name (optional)': 'उत्पादनाचे नाव (पर्यायी)',
-      'Category': 'वर्ग',
-      'Tell us about the product': 'उत्पादनाबद्दल सांगा',
-      'What is it? How is it made? What makes it special?': 'हे काय आहे? हे कसे बनवले जाते? याला खास काय बनवते?',
-      'Materials (if known)': 'साहित्य (माहित असल्यास)',
-      'Price & production': 'किंमत आणि उत्पादन',
-      'Your selling price (₹)': 'तुमची विक्री किंमत (₹)',
-      'Units you can make': 'तुम्ही किती युनिट बनवू शकता',
-      'In how many days?': 'किती दिवसांत?',
-      'AI listing studio': 'AI लिस्टिंग स्टुडिओ',
-      'Generate buyer-ready listing': 'खरेदीदारासाठी लिस्टिंग तयार करा',
-      'Generating…': 'तयार होत आहे…',
-      'Cancel': 'रद्द करा',
-      'Close': 'बंद करा',
-      'Preview listing': 'लिस्टिंग पहा',
-      'Publish (demo)': 'प्रकाशित करा (डेमो)',
-      'Demo publish': 'डेमो प्रकाशन',
-      'Connect demo': 'डेमो कनेक्ट करा',
-      'Share listing': 'लिस्टिंग शेअर करा',
-      'Share product page': 'उत्पादन पेज शेअर करा',
-      'Buyer preview': 'खरेदीदार पूर्वावलोकन',
-      'Materials': 'साहित्य',
-      'Made with care': 'काळजीपूर्वक बनवलेले',
-      'Share Page': 'पेज शेअर करा',
-      'Product page saved to your Karigar Setu shop.': 'उत्पादन पेज तुमच्या Karigar Setu शॉपमध्ये जतन झाले.',
-      'Use another Groq key': 'दुसरी Groq की वापरा',
-      'Create a Product Page': 'उत्पादन पेज तयार करा',
-      'Tap to take a photo': 'फोटो घेण्यासाठी टॅप करा',
-      'Listening… tap to stop': 'ऐकत आहे… थांबवण्यासाठी टॅप करा',
-      'Tap and speak naturally — any supported language': 'नैसर्गिकपणे बोला — कोणतीही समर्थित भाषा',
-      'Generate Product Page': 'उत्पादन पेज तयार करा',
-      'Your Groq key is used only for this AI generation request.': 'तुमची Groq की फक्त या AI विनंतीसाठी वापरली जाते.',
-      'We could not generate the page': 'पेज तयार करता आले नाही',
-      'Try again': 'पुन्हा प्रयत्न करा',
-      'Save': 'जतन करा',
-      'Share': 'शेअर करा',
-      'Your Product Page': 'तुमचे उत्पादन पेज',
-      'The story': 'कथा',
-      'Rooted in India': 'भारताशी जोडलेले',
-      'Made by hand': 'हाताने बनवलेले',
-      'Why it is special': 'हे खास का आहे',
-      'INDIAN CRAFT • HANDMADE': 'भारतीय कला • हस्तनिर्मित',
-      'Powered by Karigar Setu • AI-assisted storytelling': 'Karigar Setu द्वारे • AI-सहाय्यित कथा',
-      'Voice input language': 'व्हॉइस इनपुट भाषा',
-      'Speak': 'बोला',
-      'Make your craft discoverable': 'तुमची कला लोकांपर्यंत पोहोचवा',
-      'No forms. Just show us the product and tell its story in your own voice.': 'फॉर्म नाहीत. उत्पादन दाखवा आणि तुमच्या आवाजात त्याची कथा सांगा.',
-      '1. Photograph your product': '1. तुमच्या उत्पादनाचा फोटो घ्या',
-      '2. Tell its story in your own voice': '2. तुमच्या आवाजात त्याची कथा सांगा',
-      'Initializing microphone…': 'मायक्रोफोन सुरू होत आहे…',
-      'Gross sales': 'एकूण विक्री',
-      'Estimated profit': 'अंदाजे नफा',
-      'Average order': 'सरासरी ऑर्डर',
-      'Sales trend': 'विक्रीचा कल',
-      'Product performance': 'उत्पादन कामगिरी',
-      'Marketplace comparison': 'बाजार तुलना',
-      'Your business, at a glance': 'तुमच्या व्यवसायाची झलक',
-      'Understand what sells, where it sells, and what you earn.': 'काय विकते, कुठे विकते आणि तुम्ही किती कमावता हे समजून घ्या.',
-      'Your products': 'तुमची उत्पादने',
-      'Your craft catalog, ready to improve and share.': 'तुमची कला सूची, सुधारण्यासाठी आणि शेअर करण्यासाठी तयार.',
-      'Search your products': 'तुमची उत्पादने शोधा',
-      'Prepare each craft on time and keep payment status clear.': 'प्रत्येक ऑर्डर वेळेत तयार करा आणि पेमेंटची स्थिती स्पष्ट ठेवा.',
-      'Filter orders': 'ऑर्डर फिल्टर करा',
-      'Update order status': 'ऑर्डरची स्थिती अपडेट करा',
-      'Quantity': 'प्रमाण',
-      'Order total': 'ऑर्डर एकूण',
-      'Prepare by': 'तयार करा',
-      'Paid': 'पैसे मिळाले',
-      'Payment pending': 'पेमेंट प्रलंबित',
-      'Marketplaces': 'बाजारपेठा',
-      'Choose where you want to offer your craft.': 'तुमची कला कुठे विकायची ते निवडा.',
-      'Enabled destinations': 'सक्रिय ठिकाणे',
-      'Groq is the only AI provider used by this build. Your key is kept in app memory for this session.': 'या बिल्डमध्ये फक्त Groq AI वापरले जाते. तुमची की या सत्राच्या मेमरीमध्ये ठेवली जाते.',
-      'Generates the listing in your selected UI language.': 'तुमच्या निवडलेल्या अॅप भाषेत लिस्टिंग तयार करते.',  },
-}; }
-class LText extends StatelessWidget { final String data; final TextStyle? style; final TextAlign? textAlign; final int? maxLines; final TextOverflow? overflow; const LText(this.data,{super.key,this.style,this.textAlign,this.maxLines,this.overflow}); @override Widget build(BuildContext context)=>Text(L10n.t(data),style:style,textAlign:textAlign,maxLines:maxLines,overflow:overflow); }
+class AppLanguage {
+  final String code;
+  final String name;
+  final String nativeName;
+  final TranslateLanguage? mlKit;
+  const AppLanguage(this.code, this.name, this.nativeName, [this.mlKit]);
+}
+
+/// Indian language support. ML Kit provides on-device translation for the
+/// languages marked with an ML Kit mapping. The remaining scheduled Indian
+/// languages are kept in the selector for future translation packs rather
+/// than pretending that English is a translated UI.
+class AppLanguages {
+  static const supported = <AppLanguage>[
+    AppLanguage('en', 'English', 'English'),
+    AppLanguage('as', 'Assamese', 'অসমীয়া'),
+    AppLanguage('bn', 'Bengali', 'বাংলা', TranslateLanguage.bengali),
+    AppLanguage('brx', 'Bodo', 'बर’'),
+    AppLanguage('doi', 'Dogri', 'डोगरी'),
+    AppLanguage('gu', 'Gujarati', 'ગુજરાતી', TranslateLanguage.gujarati),
+    AppLanguage('hi', 'Hindi', 'हिन्दी', TranslateLanguage.hindi),
+    AppLanguage('kn', 'Kannada', 'ಕನ್ನಡ', TranslateLanguage.kannada),
+    AppLanguage('ks', 'Kashmiri', 'कॉशुर'),
+    AppLanguage('kok', 'Konkani', 'कोंकणी'),
+    AppLanguage('mai', 'Maithili', 'मैथिली'),
+    AppLanguage('ml', 'Malayalam', 'മലയാളം', TranslateLanguage.malayalam),
+    AppLanguage('mni', 'Meitei (Manipuri)', 'মৈতৈলোন্'),
+    AppLanguage('mr', 'Marathi', 'मराठी', TranslateLanguage.marathi),
+    AppLanguage('ne', 'Nepali', 'नेपाली'),
+    AppLanguage('or', 'Odia', 'ଓଡ଼ିଆ'),
+    AppLanguage('pa', 'Punjabi', 'ਪੰਜਾਬੀ', TranslateLanguage.punjabi),
+    AppLanguage('sa', 'Sanskrit', 'संस्कृतम्'),
+    AppLanguage('sat', 'Santali', 'ᱥᱟᱱᱛᱟᱲᱤ'),
+    AppLanguage('sd', 'Sindhi', 'سنڌي'),
+    AppLanguage('ta', 'Tamil', 'தமிழ்', TranslateLanguage.tamil),
+    AppLanguage('te', 'Telugu', 'తెలుగు', TranslateLanguage.telugu),
+    AppLanguage('ur', 'Urdu', 'اردو', TranslateLanguage.urdu),
+  ];
+}
+
+class AppLocale {
+  static String code = 'en';
+  static final ValueNotifier<String> notifier = ValueNotifier(code);
+  static void set(String value) {
+    code = value;
+    notifier.value = value;
+  }
+  static AppLanguage get current => AppLanguages.supported.firstWhere(
+        (l) => l.code == code,
+        orElse: () => AppLanguages.supported.first,
+      );
+  static bool get isRtl => code == 'ur' || code == 'sd' || code == 'ks';
+}
+
+class L10n {
+  static final Map<String, Map<String, String>> _cache = {'en': {}};
+  static final Map<String, Future<void>> _inFlight = {};
+  static String t(String key) => _cache[AppLocale.code]?[key] ?? key;
+
+  /// Translates one UI string on-device for ML Kit-supported Indian languages.
+  /// Strings are cached for the rest of the session, so the same label is
+  /// never translated twice.
+  static Future<void> translate(String key) async {
+    final target = AppLocale.current.mlKit;
+    if (target == null || AppLocale.code == 'en' || key.trim().isEmpty) return;
+    final lang = AppLocale.code;
+    _cache.putIfAbsent(lang, () => {});
+    if (_cache[lang]!.containsKey(key)) return;
+    final token = '$lang::$key';
+    if (_inFlight.containsKey(token)) return _inFlight[token]!;
+    final future = _translate(key, target, lang);
+    _inFlight[token] = future;
+    await future;
+    _inFlight.remove(token);
+  }
+
+  static Future<void> _translate(String key, TranslateLanguage target, String lang) async {
+    OnDeviceTranslator? translator;
+    try {
+      translator = OnDeviceTranslator(
+        sourceLanguage: TranslateLanguage.english,
+        targetLanguage: target,
+      );
+      final result = await translator.translateText(key);
+      if (result.trim().isNotEmpty) _cache[lang]![key] = result;
+    } catch (_) {
+      // The UI remains functional if the model is unavailable. A missing
+      // translation is deliberately not persisted as fake translated text.
+    } finally {
+      translator?.close();
+    }
+  }
+
+  static Future<void> prepareLanguage(String code) async {
+    final language = AppLanguages.supported.firstWhere(
+      (l) => l.code == code,
+      orElse: () => AppLanguages.supported.first,
+    );
+    if (language.mlKit == null || code == 'en') return;
+    try {
+      final manager = OnDeviceTranslatorModelManager();
+      await manager.downloadModel(TranslateLanguage.english.bcpCode);
+      await manager.downloadModel(language.mlKit!.bcpCode);
+    } catch (_) {}
+  }
+
+  /// The visible UI strings used by the app. They are prewarmed after a
+  /// language is selected so the interface does not progressively reveal
+  /// English labels while a translation model is being prepared.
+  static const uiStrings = <String>[
+    'Dashboard','Analytics','Products','Orders','Marketplace','Settings','Home','Markets',
+    'Create a product','Create product listing','View analytics','View page','All orders',
+    'Sales at a glance','Needs your attention','Revenue · 30 days','Orders · 30 days',
+    'Active products','Orders to prepare','Compared with previous 30 days · demo data',
+    'Your business, at a glance','Understand what sells, where it sells, and what you earn.',
+    '30 days','1 year','Gross sales','Estimated profit','Orders','Average order','Sales trend',
+    'Monthly sales · sample','Daily/weekly sales · sample','Product performance','Marketplace comparison',
+    'Illustrative demo figures. Profit estimates exclude platform-specific fee verification.',
+    'Your products','Your craft catalog, ready to improve and share.','Search your products',
+    'Demo catalog','listings','Create Product Page','Make your craft discoverable',
+    'No forms. Just show us the product and tell its story in your own voice.',
+    'Voice input language','Take photo','Upload photos','Craft details','Product name (optional)',
+    'Category','Tell us about the product','What is it? How is it made? What makes it special?',
+    'Materials (if known)','Price & production','Your selling price (₹)','Units you can make','In how many days?',
+    'Generate Product Page','Your Groq key is used only for this AI generation request.','Speak',
+    'Listening… tap to stop','Tap and speak naturally — any supported language','Initializing microphone…',
+    'Tap to take a photo','Orders','Filter orders','Update order status','Quantity','Order total','Prepare by',
+    'Paid','Payment pending','New','In progress','Ready','Delivered','Marketplaces',
+    'Choose where you want to offer your craft.','Enabled destinations','Settings','Save profile',
+    'Artisan profile','Your name','Business / craft name','Contact number','Location','About your craft / business',
+    'AI configuration','Groq API key','Apply API keys','AI keys set in memory for this session.',
+    'About KaragirSetu','Log out','Welcome back','Sign in','Username','Password','Language',
+    'Your craft. Your story. Your marketplace.','Sign in to your artisan workspace.','DEMO ACCESS',
+    'Prototype account only. Replace demo authentication before real deployment.',
+    'Made for the people behind the craft ✦','Check the demo username and password.',
+    'NAMASTE, BHARAT 👋','Your craft is going places.','Here’s what’s happening in your artisan business.',
+    'Buyer preview','Preview listing','Share product page','Publish (demo)','AI-crafted listing','Share Page',
+    'Share listing','Close','Cancel','Save product','Save','Your Product Page','The story','Rooted in India',
+    'Made by hand','Why it is special','INDIAN CRAFT • HANDMADE','Powered by Karigar Setu • AI-assisted storytelling',
+    'Product page saved to your Karigar Setu shop.','Try again','We could not generate the page',
+    'Karigar Setu AI is crafting your story','Product saved in this demo session.','Shareable product page',
+    'AI-enhanced photo','Review Listing','Suggested Price','Final price: ₹','Publish to Marketplace',
+    'Published!','Back to My Shop','Demo publish','Simulate publish','Demo publish recorded locally. No external marketplace was contacted.',
+    'Welcome to Karigar Setu','Enter Karigar Setu','Prototype mode: your key is not written into the APK or committed to GitHub.',
+    'Groq is the only AI provider used by this build. Your key is kept in app memory for this session.',
+    'Generates the listing in your selected UI language.','Please enter your Groq API key to continue.','Use another Groq key','Add a few details about your craft first.','Add multiple photos. Video selection is not enabled in this prototype.','Bring your own Groq API key. It stays in this app session and is used only when you generate a product page.','Buyer:','Connect demo','Connection and publishing are simulated in this build. Live connections require each marketplace’s seller approval, API access, and credentials.','Create a Product Page','Designed to help artisans tell the story behind their work and manage a growing digital catalog.','Groq AI','Made to order: up to','Made with care','Photo + your voice → an AI-powered product landing page you can share.','Take a photo, describe the craft in your own voice, and let Karigar Setu create a beautiful story around it.','The app will show the stated production time; shipping estimates must come from the marketplace.','Turn your craft into a story','Version 2 · SIH prototype build','You can create a Groq key from the Groq Console. Keep it private and do not paste it into GitHub.','Your first product page starts here','Your product is now live on the digital marketplace and visible to buyers year-round — not just during the next mela.','Simulated GeM / ONDC listing for demo purposes','Full on-device UI translation is available for 10 Indian languages in this build. The other scheduled languages remain listed for future Indic translation packs.','KaragirSetu','Karigar Setu','Materials','Profile saved for this session.','Create product','Namaste, artisan 👋','Made to order: up to','Your craft is going places.','NAMASTE, BHARAT 👋','A shareable public URL will be available when hosted publishing is connected.','KaragirSetu demo listing',
+  ];
+
+  static Future<void> warmLanguage(String code) async {
+    final language = AppLanguages.supported.firstWhere(
+      (l) => l.code == code,
+      orElse: () => AppLanguages.supported.first,
+    );
+    await prepareLanguage(code);
+    if (code == 'en' || language.mlKit == null) return;
+    _cache.putIfAbsent(code, () => {});
+    OnDeviceTranslator? translator;
+    try {
+      translator = OnDeviceTranslator(
+        sourceLanguage: TranslateLanguage.english,
+        targetLanguage: language.mlKit!,
+      );
+      for (final key in uiStrings) {
+        if (_cache[code]!.containsKey(key)) continue;
+        try {
+          final result = await translator.translateText(key);
+          if (result.trim().isNotEmpty) _cache[code]![key] = result;
+        } catch (_) {}
+      }
+    } catch (_) {}
+    finally { translator?.close(); }
+  }
+
+  static Future<void> warmCurrentLanguage() async {
+    final code = AppLocale.code;
+    await warmLanguage(code);
+    notifier.value = code;
+  }
+}
+
+class LText extends StatefulWidget {
+  final String data;
+  final TextStyle? style;
+  final TextAlign? textAlign;
+  final int? maxLines;
+  final TextOverflow? overflow;
+  const LText(this.data, {super.key, this.style, this.textAlign, this.maxLines, this.overflow});
+  @override State<LText> createState() => _LTextState();
+}
+
+class _LTextState extends State<LText> {
+  @override
+  void initState() {
+    super.initState();
+    L10n.translate(widget.data).then((_) { if (mounted) setState(() {}); });
+  }
+  @override
+  void didUpdateWidget(covariant LText oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.data != widget.data) {
+      L10n.translate(widget.data).then((_) { if (mounted) setState(() {}); });
+    }
+  }
+  @override
+  Widget build(BuildContext context) => Text(
+        L10n.t(widget.data),
+        style: widget.style,
+        textAlign: widget.textAlign,
+        maxLines: widget.maxLines,
+        overflow: widget.overflow,
+      );
+}
